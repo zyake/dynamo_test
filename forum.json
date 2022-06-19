@@ -1,0 +1,388 @@
+{
+  "ModelName": "forum",
+  "ModelMetadata": {
+    "Author": "zyake",
+    "DateCreated": "Jun 19, 2022, 08:36 AM",
+    "DateLastModified": "Jun 19, 2022, 10:16 AM",
+    "Description": "",
+    "AWSService": "Amazon DynamoDB",
+    "Version": "3.0"
+  },
+  "DataModel": [
+    {
+      "TableName": "forum",
+      "KeyAttributes": {
+        "PartitionKey": {
+          "AttributeName": "PK",
+          "AttributeType": "S"
+        },
+        "SortKey": {
+          "AttributeName": "SK",
+          "AttributeType": "S"
+        }
+      },
+      "NonKeyAttributes": [
+        {
+          "AttributeName": "Name",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "Version",
+          "AttributeType": "N"
+        },
+        {
+          "AttributeName": "GSI1_PK",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "GSI1_SK",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "Subject",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "LatestUpdateTime",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "CreationTimestamp",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "ThreadBody",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "UserName",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "ReplyTitle",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "ReplyText",
+          "AttributeType": "S"
+        },
+        {
+          "AttributeName": "ReplyDateTime",
+          "AttributeType": "S"
+        }
+      ],
+      "TableFacets": [
+        {
+          "FacetName": "Forum",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "FORUM#{Name}",
+            "SortKeyAlias": "1#FORUM#{Name}"
+          },
+          "TableData": [
+            {
+              "PK": {
+                "S": "FORUM#EC2"
+              },
+              "SK": {
+                "S": "2#FORUM#EC2"
+              },
+              "Name": {
+                "S": "EC2"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "GSI1_PK": {
+                "S": "Forum"
+              },
+              "GSI1_SK": {
+                "S": "EC2"
+              }
+            },
+            {
+              "PK": {
+                "S": "FORUM#S3"
+              },
+              "SK": {
+                "S": "2#FORUM#S3"
+              },
+              "Name": {
+                "S": "S3"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "GSI1_PK": {
+                "S": "Forum"
+              },
+              "GSI1_SK": {
+                "S": "S3"
+              }
+            }
+          ],
+          "NonKeyAttributes": [
+            "Name",
+            "Version",
+            "GSI1_PK",
+            "GSI1_SK"
+          ],
+          "DataAccess": {
+            "MySql": {}
+          }
+        },
+        {
+          "FacetName": "Thread",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "FORUM#{Forum.Name}",
+            "SortKeyAlias": "2#THREAD#{CreationTimestamp}#{Subject}"
+          },
+          "TableData": [
+            {
+              "PK": {
+                "S": "FORUM#EC2"
+              },
+              "SK": {
+                "S": "1#FORUM#2016-11-11T17:21:07.5272333Z#question1"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "Subject": {
+                "S": "question1"
+              },
+              "LatestUpdateTime": {
+                "S": "2016-11-11T17:21:07.5272333Z"
+              },
+              "CreationTimestamp": {
+                "S": "2016-11-11T17:21:07.5272333Z"
+              },
+              "ThreadBody": {
+                "S": "hello!"
+              }
+            },
+            {
+              "PK": {
+                "S": "FORUM#EC2"
+              },
+              "SK": {
+                "S": "1#FORUM#2016-11-11T17:21:07.5272333Z#question2"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "Subject": {
+                "S": "question2"
+              },
+              "LatestUpdateTime": {
+                "S": "2016-11-11T17:21:07.5272333Z"
+              },
+              "CreationTimestamp": {
+                "S": "2016-11-11T17:21:07.5272333Z"
+              },
+              "ThreadBody": {
+                "S": "hello!2"
+              }
+            },
+            {
+              "PK": {
+                "S": "FORUM#S3"
+              },
+              "SK": {
+                "S": "1#FORUM#2022-11-11T17:21:07.5272333Z#s3 question1"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "Subject": {
+                "S": "s3 question1"
+              },
+              "LatestUpdateTime": {
+                "S": "2022-11-11T17:21:07.5272333Z"
+              },
+              "CreationTimestamp": {
+                "S": "2022-11-11T17:21:07.5272333Z"
+              },
+              "ThreadBody": {
+                "S": "s3 question1 test test"
+              }
+            }
+          ],
+          "NonKeyAttributes": [
+            "Version",
+            "Subject",
+            "LatestUpdateTime",
+            "CreationTimestamp",
+            "ThreadBody"
+          ],
+          "DataAccess": {
+            "MySql": {}
+          }
+        },
+        {
+          "FacetName": "Reply",
+          "KeyAttributeAlias": {
+            "PartitionKeyAlias": "FORUM#{Forum.Name}#THREAD#{Thread.Subject}",
+            "SortKeyAlias": "REPLY#{ReplyDateTime}#{ReplyTitle}"
+          },
+          "TableData": [
+            {
+              "PK": {
+                "S": "FORUM#EC2#THREAD#question1"
+              },
+              "SK": {
+                "S": "REPLY#2016-11-12T17:21:07.5272333Z#Die! Die!"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "UserName": {
+                "S": "hoge"
+              },
+              "ReplyTitle": {
+                "S": "Die! Die!"
+              },
+              "ReplyText": {
+                "S": "😇"
+              },
+              "ReplyDateTime": {
+                "S": "2016-11-12T17:21:07.5272333Z"
+              }
+            },
+            {
+              "PK": {
+                "S": "FORUM#EC2#THREAD#question1"
+              },
+              "SK": {
+                "S": "REPLY#2016-11-12T17:21:08.5272333Z#👹🔪"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "UserName": {
+                "S": "hage"
+              },
+              "ReplyTitle": {
+                "S": "👹🔪"
+              },
+              "ReplyText": {
+                "S": "kill kill kill, mom mom mom"
+              },
+              "ReplyDateTime": {
+                "S": "2016-11-12T17:21:08.5272333Z"
+              }
+            },
+            {
+              "PK": {
+                "S": "FORUM#S3#THREAD#s3 qestion1"
+              },
+              "SK": {
+                "S": "REPLY#2016-12-12T17:21:08.5272333Z#👹🔪"
+              },
+              "Version": {
+                "N": "1"
+              },
+              "UserName": {
+                "S": "huge"
+              },
+              "ReplyTitle": {
+                "S": "🐈"
+              },
+              "ReplyText": {
+                "S": "🐕"
+              },
+              "ReplyDateTime": {
+                "S": "2016-12-12T17:21:08.5272333Z"
+              }
+            }
+          ],
+          "NonKeyAttributes": [
+            "Version",
+            "UserName",
+            "ReplyTitle",
+            "ReplyText",
+            "ReplyDateTime"
+          ],
+          "DataAccess": {
+            "MySql": {}
+          }
+        }
+      ],
+      "GlobalSecondaryIndexes": [
+        {
+          "IndexName": "GSI1_Forums",
+          "KeyAttributes": {
+            "PartitionKey": {
+              "AttributeName": "GSI1_PK",
+              "AttributeType": "S"
+            },
+            "SortKey": {
+              "AttributeName": "GSI1_SK",
+              "AttributeType": "S"
+            }
+          },
+          "Projection": {
+            "ProjectionType": "INCLUDE",
+            "NonKeyAttributes": [
+              "Name"
+            ]
+          }
+        }
+      ],
+      "TableData": [
+        {
+          "PK": {
+            "S": "FORUM#EC2"
+          },
+          "SK": {
+            "S": "2#FORUM#2016-11-12T17:21:07.5272333Z#question3"
+          },
+          "Version": {
+            "N": "1"
+          },
+          "Subject": {
+            "S": "question3"
+          },
+          "LatestUpdateTime": {
+            "S": "2016-11-12T17:21:07.5272333Z"
+          },
+          "CreationTimestamp": {
+            "S": "2016-11-12T17:21:07.5272333Z"
+          },
+          "ThreadBody": {
+            "S": "hugya!"
+          }
+        }
+      ],
+      "DataAccess": {
+        "MySql": {}
+      },
+      "BillingMode": "PROVISIONED",
+      "ProvisionedCapacitySettings": {
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5
+        },
+        "AutoScalingRead": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        },
+        "AutoScalingWrite": {
+          "ScalableTargetRequest": {
+            "MinCapacity": 1,
+            "MaxCapacity": 10,
+            "ServiceRole": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"
+          },
+          "ScalingPolicyConfiguration": {
+            "TargetValue": 70
+          }
+        }
+      }
+    }
+  ]
+}
